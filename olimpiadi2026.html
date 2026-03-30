@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milano Cortina 2026 – Giochi Olimpici Invernali</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blu: #003DA5;
+    --rosso: #CC2A00;
+    --oro: #FFD700;
+    --bianco: #F8F9FF;
+    --scuro: #0a1628;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Nunito',sans-serif; background:var(--scuro); color:var(--bianco); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 40px;
+    background:rgba(10,22,40,0.93); backdrop-filter:blur(10px);
+    border-bottom:2px solid rgba(255,215,0,0.25);
+  }
+  .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--oro); letter-spacing:2px; }
+  .nav-links { display:flex; gap:22px; list-style:none; }
+  .nav-links a { color:#ccc; text-decoration:none; font-weight:700; font-size:.82rem; letter-spacing:1px; text-transform:uppercase; transition:color .2s; }
+  .nav-links a:hover { color:var(--oro); }
+
+  /* HERO */
+  #home {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+    text-align:center; position:relative;
+    background:linear-gradient(160deg, #0a1628 0%, #003494 55%, #0a1628 100%);
+    overflow:hidden; padding:100px 20px 60px;
+  }
+  .hero-bg-rings { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:700px; height:700px; opacity:.05; pointer-events:none; }
+  .hero-badge { background:rgba(255,215,0,0.12); border:1.5px solid var(--oro); color:var(--oro); font-size:.8rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; padding:6px 20px; border-radius:50px; margin-bottom:28px; display:inline-block; animation:fadeUp .8s ease forwards; }
+  .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,10vw,8rem); line-height:1; animation:fadeUp 1s .1s ease both; background:linear-gradient(135deg,#fff 30%,var(--oro)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-sub { font-size:clamp(1rem,2.5vw,1.35rem); color:#8aafd8; margin-top:18px; animation:fadeUp 1s .2s ease both; }
+  .hero-stats { display:flex; gap:30px; flex-wrap:wrap; justify-content:center; margin-top:44px; animation:fadeUp 1s .3s ease both; }
+  .stat-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); border-radius:16px; padding:18px 26px; text-align:center; }
+  .stat-num { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; color:var(--oro); line-height:1; }
+  .stat-label { font-size:.78rem; color:#8aafd8; letter-spacing:1px; text-transform:uppercase; margin-top:4px; }
+  .hero-btn { display:inline-flex; align-items:center; gap:10px; margin-top:40px; background:var(--oro); color:var(--scuro); font-weight:900; font-size:1rem; letter-spacing:1px; text-transform:uppercase; padding:16px 40px; border-radius:50px; text-decoration:none; animation:fadeUp 1s .4s ease both; transition:transform .2s,box-shadow .2s; box-shadow:0 6px 30px rgba(255,215,0,.35); }
+  .hero-btn:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(255,215,0,.5); }
+
+  /* SNOW */
+  .snowflake { position:absolute; top:-10px; color:#fff; font-size:1rem; animation:fall linear infinite; opacity:.3; pointer-events:none; }
+  @keyframes fall { to { transform:translateY(110vh) rotate(360deg); opacity:0; } }
+
+  /* SECTIONS */
+  section { padding:90px 24px; }
+  .section-label { font-size:.75rem; letter-spacing:4px; text-transform:uppercase; color:var(--oro); margin-bottom:10px; font-weight:700; }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,5vw,4rem); line-height:1.05; margin-bottom:18px; }
+  .container { max-width:1100px; margin:0 auto; }
+
+  /* INFO */
+  #info { background:linear-gradient(180deg, var(--scuro) 0%, #0c1f3d 100%); }
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:22px; margin-top:46px; }
+  .info-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:28px 24px; transition:transform .3s,border-color .3s; position:relative; overflow:hidden; }
+  .info-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:20px 20px 0 0; }
+  .info-card.blu::before { background:var(--blu); }
+  .info-card.rosso::before { background:var(--rosso); }
+  .info-card.oro::before { background:var(--oro); }
+  .info-card.verde::before { background:#00b894; }
+  .info-card:hover { transform:translateY(-6px); border-color:rgba(255,215,0,.3); }
+  .card-icon { font-size:2.4rem; margin-bottom:12px; }
+  .card-title { font-family:'Bebas Neue',sans-serif; font-size:1.35rem; color:var(--oro); margin-bottom:10px; letter-spacing:1px; }
+  .card-text { color:#aac5e0; line-height:1.75; font-size:.95rem; }
+  .card-text strong { color:var(--bianco); }
+
+  /* DISCIPLINE */
+  #discipline { background:#0c1f3d; }
+  .disc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; margin-top:46px; }
+  .disc-item { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 12px; text-align:center; font-size:.88rem; font-weight:700; transition:all .25s; cursor:pointer; user-select:none; }
+  .disc-item:hover { background:rgba(255,215,0,.12); border-color:var(--oro); color:var(--oro); transform:scale(1.04); }
+  .disc-item .disc-emoji { font-size:1.7rem; display:block; margin-bottom:8px; }
+  .disc-item.highlight { background:linear-gradient(135deg,#003DA5,#0051d4); border-color:var(--oro); color:var(--oro); box-shadow:0 4px 20px rgba(0,61,165,.5); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 4px 20px rgba(0,61,165,.5)} 50%{box-shadow:0 6px 30px rgba(255,215,0,.4)} }
+
+  /* SEDI */
+  #sedi { background:var(--scuro); }
+  .sedi-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin-top:44px; }
+  .sede-item { display:flex; align-items:center; gap:14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px 18px; font-size:.9rem; transition:all .2s; }
+  .sede-item:hover { border-color:rgba(255,215,0,.4); background:rgba(255,215,0,.05); }
+  .sede-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .sede-dot.mi { background:var(--rosso); }
+  .sede-dot.co { background:#2ecc71; }
+  .sede-dot.al { background:var(--oro); }
+  .sedi-legend { display:flex; gap:22px; flex-wrap:wrap; margin-top:22px; margin-bottom:4px; }
+  .leg-item { display:flex; align-items:center; gap:8px; font-size:.85rem; color:#aac5e0; }
+
+  /* HOCKEY */
+  #hockey { background:linear-gradient(180deg,#071020 0%,#0a1a34 100%); position:relative; overflow:hidden; }
+  .hockey-giant { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,18vw,14rem); color:rgba(255,255,255,.033); position:absolute; top:20px; left:50%; transform:translateX(-50%); white-space:nowrap; pointer-events:none; }
+  .hockey-badge { background:var(--rosso); color:#fff; font-size:.75rem; letter-spacing:3px; font-weight:900; padding:6px 20px; border-radius:50px; display:inline-block; margin-bottom:18px; text-transform:uppercase; }
+  .hockey-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:42px; }
+  @media(max-width:680px) { .hockey-grid{grid-template-columns:1fr;} }
+  .hockey-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:26px 24px; transition:transform .3s; }
+  .hockey-card:hover { transform:translateY(-4px); }
+  .hockey-card.full { grid-column:1/-1; }
+  .hcard-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .hcard-icon { font-size:1.9rem; }
+  .hcard-title { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--oro); letter-spacing:1px; }
+  .hcard-text { color:#aac5e0; line-height:1.8; font-size:.95rem; }
+  .hcard-text ul { padding-left:18px; margin-top:8px; }
+  .hcard-text li { margin-bottom:6px; }
+  .hcard-text strong { color:#fff; }
+  .puck-divider { display:flex; align-items:center; gap:16px; margin:36px 0 6px; }
+  .puck-divider::before,.puck-divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,.1); }
+
+  /* ATTREZZATURA */
+  .att-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; margin-top:24px; }
+  .att-item { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:20px 14px; text-align:center; transition:all .25s; }
+  .att-item:hover { background:rgba(0,61,165,.2); border-color:var(--blu); }
+  .att-emoji { font-size:2.4rem; margin-bottom:10px; }
+  .att-name { font-weight:900; margin-bottom:6px; font-size:.97rem; }
+  .att-desc { font-size:.82rem; color:#8aafd8; line-height:1.5; }
+
+  /* CURIOSITÀ ACCORDION */
+  .cur-accordion { margin-top:24px; display:flex; flex-direction:column; gap:10px; }
+  .cur-item { background:rgba(255,215,0,.07); border:1px solid rgba(255,215,0,.2); border-radius:14px; overflow:hidden; }
+  .cur-btn { width:100%; display:flex; align-items:center; gap:14px; padding:16px 20px; background:none; border:none; cursor:pointer; text-align:left; color:var(--bianco); font-family:'Nunito',sans-serif; font-size:.97rem; font-weight:700; }
+  .cur-btn:hover { background:rgba(255,215,0,.06); }
+  .cur-num-badge { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--oro); width:36px; flex-shrink:0; }
+  .cur-arrow { margin-left:auto; font-size:1rem; transition:transform .3s; }
+  .cur-body-txt { display:none; padding:0 20px 16px 70px; color:#aac5e0; font-size:.9rem; line-height:1.75; }
+  .cur-body-txt strong { color:#fff; }
+  .cur-item.open .cur-arrow { transform:rotate(180deg); }
+  .cur-item.open .cur-body-txt { display:block; }
+
+  /* QUIZ */
+  #quiz-section { background:#071020; }
+  .quiz-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:24px; padding:34px 30px; max-width:700px; margin:40px auto 0; }
+  .quiz-q { font-size:1.1rem; font-weight:700; margin-bottom:22px; line-height:1.5; }
+  .quiz-q span { color:var(--oro); font-family:'Bebas Neue',sans-serif; font-size:1.5rem; margin-right:8px; }
+  .quiz-opts { display:flex; flex-direction:column; gap:10px; }
+  .quiz-opt { background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 20px; cursor:pointer; font-size:.97rem; font-weight:700; transition:all .2s; text-align:left; color:var(--bianco); font-family:'Nunito',sans-serif; }
+  .quiz-opt:hover:not(:disabled) { border-color:var(--oro); background:rgba(255,215,0,.1); }
+  .quiz-opt.correct { background:rgba(0,184,120,.2); border-color:#00b878; color:#4dffc3; }
+  .quiz-opt.wrong { background:rgba(204,42,0,.2); border-color:var(--rosso); color:#ff8a80; }
+  .quiz-opt:disabled { cursor:default; }
+  .quiz-feedback { margin-top:16px; padding:14px 18px; border-radius:12px; font-weight:700; display:none; font-size:.93rem; }
+  .quiz-feedback.ok { background:rgba(0,184,120,.15); border:1px solid #00b878; color:#4dffc3; display:block; }
+  .quiz-feedback.ko { background:rgba(204,42,0,.15); border:1px solid var(--rosso); color:#ff8a80; display:block; }
+  .quiz-nav { display:flex; align-items:center; justify-content:space-between; margin-top:22px; }
+  .quiz-counter { color:#8aafd8; font-size:.88rem; }
+  .quiz-next { background:var(--oro); color:var(--scuro); font-weight:900; font-size:.92rem; padding:12px 28px; border-radius:50px; border:none; cursor:pointer; display:none; transition:transform .2s; font-family:'Nunito',sans-serif; }
+  .quiz-next:hover { transform:scale(1.04); }
+  .quiz-score { text-align:center; display:none; }
+  .quiz-score .score-big { font-family:'Bebas Neue',sans-serif; font-size:5rem; color:var(--oro); }
+  .quiz-score p { color:#8aafd8; margin-top:10px; font-size:1.05rem; }
+  .quiz-restart { margin-top:22px; background:var(--oro); color:var(--scuro); font-weight:900; padding:14px 36px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Nunito',sans-serif; transition:transform .2s; }
+  .quiz-restart:hover { transform:scale(1.04); }
+
+  /* MASCOTTE */
+  #mascotte { background:#0c1f3d; }
+  .masc-flex { display:flex; gap:40px; flex-wrap:wrap; align-items:center; margin-top:46px; }
+  .masc-visual { flex:1; min-width:220px; background:linear-gradient(135deg,rgba(0,61,165,.3),rgba(204,42,0,.2)); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:48px 30px; text-align:center; font-size:5.5rem; }
+  .masc-info { flex:2; min-width:280px; color:#aac5e0; line-height:1.8; }
+  .masc-info h3 { font-family:'Bebas Neue',sans-serif; font-size:1.9rem; color:var(--oro); margin-bottom:12px; }
+
+  /* FONTI */
+  #fonti { background:var(--scuro); padding:70px 24px; }
+  .fonti-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:34px; }
+  .fonte-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:20px 18px; display:flex; align-items:flex-start; gap:14px; text-decoration:none; color:inherit; transition:all .25s; }
+  .fonte-card:hover { border-color:var(--oro); background:rgba(255,215,0,.06); transform:translateY(-3px); }
+  .fonte-icon { font-size:2rem; flex-shrink:0; }
+  .fonte-title { font-weight:900; font-size:.95rem; color:var(--bianco); margin-bottom:4px; }
+  .fonte-url { font-size:.78rem; color:#8aafd8; word-break:break-all; }
+
+  /* FOOTER */
+  footer { background:#050d1a; border-top:1px solid rgba(255,255,255,.08); text-align:center; padding:44px 20px; }
+  .footer-rings { font-size:2rem; margin-bottom:14px; letter-spacing:6px; color:#555; }
+  .footer-main { font-size:1.1rem; color:#8aafd8; font-weight:700; }
+  .footer-author { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:var(--oro); letter-spacing:3px; margin-top:8px; }
+  .footer-sub { font-size:.82rem; margin-top:10px; color:#556; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease,transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:600px){
+    nav { padding:12px 14px; }
+    .nav-links { gap:10px; }
+    .nav-links a { font-size:.7rem; }
+    .hero-stats { gap:12px; }
+    .stat-card { padding:14px 16px; }
+    .quiz-box { padding:22px 16px; }
+    .cur-body-txt { padding-left:20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🏔️ Milano Cortina 2026</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#info">I Giochi</a></li>
+    <li><a href="#discipline">Discipline</a></li>
+    <li><a href="#hockey">Hockey</a></li>
+    <li><a href="#quiz-section">Quiz 🧠</a></li>
+    <li><a href="#mascotte">Mascotte</a></li>
+    <li><a href="#fonti">Fonti</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div id="snow"></div>
+  <svg class="hero-bg-rings" viewBox="0 0 400 400" fill="none">
+    <circle cx="80"  cy="200" r="60" stroke="white" stroke-width="8"/>
+    <circle cx="200" cy="200" r="60" stroke="white" stroke-width="8"/>
+    <circle cx="320" cy="200" r="60" stroke="white" stroke-width="8"/>
+    <circle cx="140" cy="260" r="60" stroke="white" stroke-width="8"/>
+    <circle cx="260" cy="260" r="60" stroke="white" stroke-width="8"/>
+  </svg>
+
+  <div class="hero-badge">🇮🇹 Italia · XXV Giochi Olimpici Invernali</div>
+  <div class="hero-title">Milano<br>Cortina<br>2026</div>
+  <p class="hero-sub">6 – 22 Febbraio 2026 · 16 discipline · 116 gare</p>
+
+  <div class="hero-stats">
+    <div class="stat-card"><div class="stat-num">3.500+</div><div class="stat-label">Atleti</div></div>
+    <div class="stat-card"><div class="stat-num">93</div><div class="stat-label">Nazioni</div></div>
+    <div class="stat-card"><div class="stat-num">116</div><div class="stat-label">Gare</div></div>
+    <div class="stat-card"><div class="stat-num">15</div><div class="stat-label">Sedi</div></div>
+  </div>
+  <a href="#info" class="hero-btn">Scopri i Giochi ↓</a>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div class="container">
+    <div class="section-label reveal">Tutto quello che c'è da sapere</div>
+    <h2 class="section-title reveal">I Giochi di Milano Cortina 2026</h2>
+    <p style="color:#8aafd8; max-width:640px; line-height:1.8;" class="reveal">
+      L'Italia ospita le Olimpiadi Invernali per la <strong>terza volta</strong>, dopo Cortina 1956 e Torino 2006.
+      Per la prima volta nella storia, due città insieme ospitano i Giochi!
+    </p>
+    <div class="info-grid">
+      <div class="info-card blu reveal">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Quando</div>
+        <div class="card-text">I Giochi iniziano il <strong>6 febbraio 2026</strong> e finiscono il <strong>22 febbraio 2026</strong>. La cerimonia di apertura è a Milano e quella di chiusura è all'Arena di Verona.</div>
+      </div>
+      <div class="info-card rosso reveal">
+        <div class="card-icon">🗺️</div>
+        <div class="card-title">Dove</div>
+        <div class="card-text">Le gare si disputano in tante città diverse: <strong>Milano, Cortina d'Ampezzo, Livigno, Bormio, Anterselva, Predazzo</strong> e Verona. Un'edizione davvero "diffusa" in tutto il nord Italia!</div>
+      </div>
+      <div class="info-card oro reveal">
+        <div class="card-icon">🏅</div>
+        <div class="card-title">Le medaglie</div>
+        <div class="card-text">Si assegnano <strong>116 medaglie d'oro</strong> in totale. Ogni medaglia ha un diametro di <strong>80 mm</strong> e quella d'oro è placcata con oro vero da 6 grammi!</div>
+      </div>
+      <div class="info-card verde reveal">
+        <div class="card-icon">⭐</div>
+        <div class="card-title">La grande novità</div>
+        <div class="card-text">Lo <strong>Sci Alpinismo</strong> fa il suo debutto olimpico proprio qui! È uno sport dove gli atleti salgono in montagna a piedi (con gli sci sulle spalle) e poi scendono sugli sci.</div>
+      </div>
+      <div class="info-card blu reveal">
+        <div class="card-icon">🇮🇹</div>
+        <div class="card-title">L'Italia in gara</div>
+        <div class="card-text">L'Italia porta <strong>196 atleti</strong>, il numero più alto di sempre per un'edizione invernale. Vogliamo battere il nostro record di medaglie!</div>
+      </div>
+      <div class="info-card rosso reveal">
+        <div class="card-icon">♻️</div>
+        <div class="card-title">Sostenibilità</div>
+        <div class="card-text">Milano Cortina 2026 vuole rispettare l'ambiente: si usano soprattutto <strong>impianti già esistenti</strong>, rinnovati, invece di costruirne di nuovi da zero.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINE -->
+<section id="discipline">
+  <div class="container">
+    <div class="section-label reveal">Programma olimpico</div>
+    <h2 class="section-title reveal">Le 16 Discipline</h2>
+    <p style="color:#8aafd8; max-width:640px; line-height:1.8;" class="reveal">
+      Clicca sulla casella blu 🏒 per scoprire tutto sull'Hockey su Ghiaccio, la disciplina che ho scelto!
+    </p>
+    <div class="disc-grid reveal">
+      <div class="disc-item"><span class="disc-emoji">⛷️</span>Sci Alpino</div>
+      <div class="disc-item"><span class="disc-emoji">🎯</span>Biathlon</div>
+      <div class="disc-item"><span class="disc-emoji">🛷</span>Bob</div>
+      <div class="disc-item"><span class="disc-emoji">🎿</span>Sci di Fondo</div>
+      <div class="disc-item"><span class="disc-emoji">🥌</span>Curling</div>
+      <div class="disc-item"><span class="disc-emoji">⛸️</span>Pattinaggio di Figura</div>
+      <div class="disc-item"><span class="disc-emoji">🌀</span>Sci Acrobatico</div>
+      <div class="disc-item highlight" onclick="document.getElementById('hockey').scrollIntoView({behavior:'smooth'})">
+        <span class="disc-emoji">🏒</span>Hockey su Ghiaccio ⭐
+      </div>
+      <div class="disc-item"><span class="disc-emoji">🛷</span>Slittino</div>
+      <div class="disc-item"><span class="disc-emoji">🎿</span>Combinata Nordica</div>
+      <div class="disc-item"><span class="disc-emoji">⚡</span>Short Track</div>
+      <div class="disc-item"><span class="disc-emoji">💨</span>Skeleton</div>
+      <div class="disc-item"><span class="disc-emoji">🦅</span>Salto con gli Sci</div>
+      <div class="disc-item" style="border-color:var(--rosso);color:var(--rosso)"><span class="disc-emoji">🆕</span>Sci Alpinismo</div>
+      <div class="disc-item"><span class="disc-emoji">🏂</span>Snowboard</div>
+      <div class="disc-item"><span class="disc-emoji">⚡</span>Pattinaggio di Velocità</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEDI -->
+<section id="sedi">
+  <div class="container">
+    <div class="section-label reveal">Impianti olimpici</div>
+    <h2 class="section-title reveal">Le 15 Sedi di Gara</h2>
+    <p style="color:#8aafd8; max-width:640px; line-height:1.8;" class="reveal">
+      Le gare si tengono in posti diversi tra le Alpi italiane. Anche Verona partecipa, ospitando la cerimonia di chiusura!
+    </p>
+    <div class="sedi-legend reveal">
+      <div class="leg-item"><div class="sede-dot mi"></div> Milano / Lombardia</div>
+      <div class="leg-item"><div class="sede-dot co"></div> Cortina / Dolomiti</div>
+      <div class="leg-item"><div class="sede-dot al"></div> Altre sedi</div>
+    </div>
+    <div class="sedi-list reveal">
+      <div class="sede-item"><div class="sede-dot mi"></div>Milano – Ice Skating Arena</div>
+      <div class="sede-item"><div class="sede-dot mi"></div>Milano – San Siro Olympic Stadium</div>
+      <div class="sede-item"><div class="sede-dot mi"></div>Milano – Santagiulia Ice Hockey Arena 🏒</div>
+      <div class="sede-item"><div class="sede-dot mi"></div>Milano – Speed Skating Stadium</div>
+      <div class="sede-item"><div class="sede-dot mi"></div>Milano Rho – Ice Hockey Arena 🏒</div>
+      <div class="sede-item"><div class="sede-dot co"></div>Cortina – Curling Stadium</div>
+      <div class="sede-item"><div class="sede-dot co"></div>Cortina – Sliding Centre</div>
+      <div class="sede-item"><div class="sede-dot co"></div>Tofane – Sci Alpino</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Anterselva – Biathlon</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Bormio – Stelvio Ski Centre</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Livigno – Snow Park</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Livigno – Aerials & Moguls</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Tesero – Sci di Fondo</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Predazzo – Salto con gli Sci</div>
+      <div class="sede-item"><div class="sede-dot al"></div>Verona – Arena (cerimonia chiusura) 🏛️</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOCKEY -->
+<section id="hockey">
+  <div class="container" style="position:relative;">
+    <div class="hockey-giant">HOCKEY</div>
+
+    <div style="text-align:center; padding:38px 0 10px; position:relative;">
+      <div class="hockey-badge">⭐ La disciplina che ho scelto</div>
+      <div class="section-label" style="margin-bottom:8px;">Sport olimpico invernale</div>
+      <h2 class="section-title" style="font-size:clamp(2.5rem,7vw,5.5rem);">Hockey su Ghiaccio 🏒</h2>
+      <p style="color:#8aafd8; max-width:660px; margin:14px auto 0; line-height:1.85; font-size:1rem;">
+        Velocità, potenza e tanto spettacolo: l'hockey su ghiaccio è uno degli sport più emozionanti dei Giochi Olimpici Invernali!
+      </p>
+    </div>
+
+    <!-- COS'È -->
+    <div class="puck-divider reveal"><span>🏒</span> Cos'è e come si gioca</div>
+    <div class="hockey-grid reveal">
+      <div class="hockey-card">
+        <div class="hcard-head"><span class="hcard-icon">⚡</span><div class="hcard-title">Cos'è?</div></div>
+        <div class="hcard-text">
+          È uno sport di squadra che si gioca su <strong>una pista di ghiaccio</strong>. Due squadre da <strong>6 giocatori</strong> (incluso il portiere) cercano di spingere un disco di gomma – il "<strong>puck</strong>" – nella porta avversaria usando dei bastoni.<br><br>
+          È uno degli sport più veloci del mondo: i giocatori raggiungono i <strong>48 km/h</strong> e il puck può volare a oltre <strong>160 km/h</strong>!
+        </div>
+      </div>
+      <div class="hockey-card">
+        <div class="hcard-head"><span class="hcard-icon">👥</span><div class="hcard-title">La Squadra</div></div>
+        <div class="hcard-text">
+          In pista ci sono sempre 6 giocatori per squadra:
+          <ul>
+            <li>🥅 <strong>1 Portiere</strong> – difende la porta</li>
+            <li>🛡️ <strong>2 Difensori</strong> – bloccano gli avversari</li>
+            <li>⚡ <strong>3 Attaccanti</strong> – cercano di segnare</li>
+          </ul>
+          I giocatori si cambiano ogni <strong>45-90 secondi</strong> perché l'intensità è altissima e si stanca subito!
+        </div>
+      </div>
+    </div>
+
+    <!-- REGOLAMENTO -->
+    <div class="puck-divider reveal"><span>📋</span> Le regole</div>
+    <div class="hockey-card full reveal">
+      <div class="hcard-head"><span class="hcard-icon">📋</span><div class="hcard-title">Come si gioca – le regole principali</div></div>
+      <div class="hcard-text">
+        <p>La partita dura <strong>3 periodi da 20 minuti</strong> ciascuno (60 minuti totali). Vince chi segna più gol: il puck deve entrare completamente in porta.</p>
+        <br>
+        <p>Regole importanti da conoscere: il <strong>fuorigioco</strong> (non puoi andare in zona d'attacco prima del puck), l'<strong>icing</strong> (non puoi tirare il puck dall'altra parte del campo senza che nessuno lo tocchi) e le <strong>penalità</strong>: chi fa un fallo va in panchina 2 minuti, e la sua squadra gioca in inferiorità numerica! Se la partita è pari si gioca un <strong>tempo supplementare</strong>, e poi eventualmente i rigori.</p>
+      </div>
+    </div>
+
+    <!-- ATTREZZATURA -->
+    <div class="puck-divider reveal"><span>🛡️</span> L'attrezzatura</div>
+    <div class="att-grid reveal">
+      <div class="att-item"><div class="att-emoji">🪄</div><div class="att-name">Bastone (Stick)</div><div class="att-desc">In fibra di carbonio, circa 150 cm. La pala curva serve a controllare il puck.</div></div>
+      <div class="att-item"><div class="att-emoji">⛸️</div><div class="att-name">Pattini</div><div class="att-desc">Lama in acciaio affilatissima. Il segreto per essere veloci sul ghiaccio!</div></div>
+      <div class="att-item"><div class="att-emoji">⛑️</div><div class="att-name">Casco e visiera</div><div class="att-desc">Obbligatorio alle Olimpiadi. Protegge dai colpi di bastone e dal puck.</div></div>
+      <div class="att-item"><div class="att-emoji">🧤</div><div class="att-name">Guantoni</div><div class="att-desc">Imbottiti e rinforzati per proteggere mani e polsi dai colpi.</div></div>
+      <div class="att-item"><div class="att-emoji">🦺</div><div class="att-name">Protezioni corpo</div><div class="att-desc">Spallacci, pettorina e parastinchi. L'hockey è uno sport di contatto fisico!</div></div>
+      <div class="att-item"><div class="att-emoji">🥅</div><div class="att-name">Equipaggiamento Portiere</div><div class="att-desc">Maschera speciale, parastinchi enormi, guantone. Tutto insieme pesa oltre <strong>20 kg</strong>!</div></div>
+    </div>
+
+    <!-- CURIOSITÀ -->
+    <div class="puck-divider reveal"><span>💡</span> Curiosità – clicca per aprire!</div>
+    <div class="cur-accordion reveal">
+      <div class="cur-item">
+        <button class="cur-btn" onclick="toggleCur(this)">
+          <span class="cur-num-badge">01</span> Sport olimpico dal 1920! <span class="cur-arrow">▼</span>
+        </button>
+        <div class="cur-body-txt">L'hockey su ghiaccio maschile è entrato alle Olimpiadi nel <strong>1920</strong>, ai Giochi di Anversa. Il torneo femminile è arrivato solo nel <strong>1998</strong> a Nagano!</div>
+      </div>
+      <div class="cur-item">
+        <button class="cur-btn" onclick="toggleCur(this)">
+          <span class="cur-num-badge">02</span> Il "Miracolo sul Ghiaccio" <span class="cur-arrow">▼</span>
+        </button>
+        <div class="cur-body-txt">Alle Olimpiadi di <strong>Lake Placid 1980</strong>, una squadra di studenti americani riuscì a battere l'imbattibile URSS. Una delle vittorie più incredibili nella storia dello sport! La chiamano il <strong>"Miracolo sul Ghiaccio"</strong>.</div>
+      </div>
+      <div class="cur-item">
+        <button class="cur-btn" onclick="toggleCur(this)">
+          <span class="cur-num-badge">03</span> Il puck va in frigo! <span class="cur-arrow">▼</span>
+        </button>
+        <div class="cur-body-txt">Prima delle partite i puck vengono tenuti in <strong>frigorifero</strong>! Un puck freddo rimbalza meno e scivola meglio sul ghiaccio. Strano ma vero!</div>
+      </div>
+      <div class="cur-item">
+        <button class="cur-btn" onclick="toggleCur(this)">
+          <span class="cur-num-badge">04</span> Cos'è l'"Hat trick"? <span class="cur-arrow">▼</span>
+        </button>
+        <div class="cur-body-txt">Quando un giocatore segna <strong>3 gol</strong> nella stessa partita, si chiama <strong>"Hat trick"</strong>. I tifosi lanciano i cappelli sul ghiaccio per festeggiare!</div>
+      </div>
+      <div class="cur-item">
+        <button class="cur-btn" onclick="toggleCur(this)">
+          <span class="cur-num-badge">05</span> A Milano 2026 ci sono i pro della NHL! <span class="cur-arrow">▼</span>
+        </button>
+        <div class="cur-body-txt">La grande novità è che a Milano Cortina 2026 partecipano i professionisti della <strong>NHL</strong>, la lega nordamericana più forte al mondo. Non succedeva dai Giochi di Salt Lake City 2002!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz-section">
+  <div class="container">
+    <div class="section-label reveal" style="text-align:center;">Metti alla prova le tue conoscenze</div>
+    <h2 class="section-title reveal" style="text-align:center;">Quiz sull'Hockey! 🧠</h2>
+    <p style="color:#8aafd8; max-width:580px; margin:0 auto; text-align:center; line-height:1.8;" class="reveal">
+      Hai letto la sezione sull'hockey? Ora rispondi a 5 domande e scopri il tuo punteggio! 🏆
+    </p>
+    <div class="quiz-box reveal">
+      <div id="quiz-content">
+        <div class="quiz-q"><span id="q-num">1</span> <span id="q-text"></span></div>
+        <div class="quiz-opts" id="q-opts"></div>
+        <div class="quiz-feedback" id="q-feedback"></div>
+        <div class="quiz-nav">
+          <span class="quiz-counter" id="q-counter">Domanda 1 di 5</span>
+          <button class="quiz-next" id="q-next" onclick="nextQuestion()">Prossima ▶</button>
+        </div>
+      </div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-big" id="score-val">0/5</div>
+        <p id="score-msg"></p>
+        <button class="quiz-restart" onclick="restartQuiz()">🔄 Riprova!</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MASCOTTE -->
+<section id="mascotte">
+  <div class="container">
+    <div class="section-label reveal">Le mascotte ufficiali</div>
+    <h2 class="section-title reveal">Tina e Milo 🦊🦡</h2>
+    <div class="masc-flex reveal">
+      <div class="masc-visual">🦊🦡</div>
+      <div class="masc-info">
+        <h3>Chi sono Tina e Milo?</h3>
+        <p>Le mascotte ufficiali di Milano Cortina 2026 si chiamano <strong>Tina</strong> e <strong>Milo</strong>. I loro nomi non sono casuali!</p>
+        <br>
+        <p>🦊 <strong>Tina</strong> è la mascotte olimpica. Il suo nome viene da <strong>Cor<u>tina</u></strong> d'Ampezzo. Rappresenta la montagna, la neve e le tradizioni alpine italiane.</p>
+        <br>
+        <p>🦡 <strong>Milo</strong> è la mascotte paralimpica. Il suo nome viene da <strong>Mi<u>lo</u>no</strong>. Rappresenta la città moderna, la tecnologia e l'inclusione.</p>
+        <br>
+        <p>Insieme simboleggiano l'unione tra le due città e tra le Olimpiadi e le Paralimpiadi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FONTI -->
+<section id="fonti">
+  <div class="container">
+    <div class="section-label reveal">Da dove vengono le informazioni</div>
+    <h2 class="section-title reveal">Fonti 📚</h2>
+    <p style="color:#8aafd8; max-width:640px; line-height:1.8;" class="reveal">
+      Tutte le informazioni del sito vengono da fonti ufficiali e affidabili. Clicca su ognuna per visitarla!
+    </p>
+    <div class="fonti-grid reveal">
+      <a class="fonte-card" href="https://www.olympics.com/it/milano-cortina-2026/giochi-olimpici" target="_blank">
+        <div class="fonte-icon">🏅</div>
+        <div>
+          <div class="fonte-title">Olympics.com – Milano Cortina 2026</div>
+          <div class="fonte-url">olympics.com/it/milano-cortina-2026</div>
+        </div>
+      </a>
+      <a class="fonte-card" href="https://www.olympics.com/it/olympic-games" target="_blank">
+        <div class="fonte-icon">🌍</div>
+        <div>
+          <div class="fonte-title">Olympics.com – Giochi Olimpici</div>
+          <div class="fonte-url">olympics.com/it/olympic-games</div>
+        </div>
+      </a>
+      <a class="fonte-card" href="https://www.olympics.com/it/sport/winter-olympics" target="_blank">
+        <div class="fonte-icon">⛷️</div>
+        <div>
+          <div class="fonte-title">Olympics.com – Sport Invernali</div>
+          <div class="fonte-url">olympics.com/it/sport/winter-olympics</div>
+        </div>
+      </a>
+      <a class="fonte-card" href="https://milanocortina2026.olympics.com" target="_blank">
+        <div class="fonte-icon">🏔️</div>
+        <div>
+          <div class="fonte-title">Sito Ufficiale Milano Cortina 2026</div>
+          <div class="fonte-url">milanocortina2026.olympics.com</div>
+        </div>
+      </a>
+      <a class="fonte-card" href="https://it.wikipedia.org/wiki/Hockey_su_ghiaccio" target="_blank">
+        <div class="fonte-icon">📖</div>
+        <div>
+          <div class="fonte-title">Wikipedia – Hockey su Ghiaccio</div>
+          <div class="fonte-url">it.wikipedia.org/wiki/Hockey_su_ghiaccio</div>
+        </div>
+      </a>
+      <a class="fonte-card" href="https://www.iihf.com" target="_blank">
+        <div class="fonte-icon">🏒</div>
+        <div>
+          <div class="fonte-title">IIHF – Federazione Internazionale Hockey</div>
+          <div class="fonte-url">iihf.com</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-rings">⬤⬤⬤⬤⬤</div>
+  <div class="footer-main">Milano Cortina 2026 · XXV Giochi Olimpici Invernali</div>
+  <div class="footer-author">Alessandro Naschetti</div>
+  <div class="footer-sub">Elaborato per il corso di Educazione Fisica · Disciplina scelta: Hockey su Ghiaccio 🏒</div>
+</footer>
+
+<script>
+/* SNOW */
+const snowEl=document.getElementById('snow');
+for(let i=0;i<28;i++){
+  const s=document.createElement('div');
+  s.className='snowflake';
+  s.textContent=['❄','❅','❆'][Math.floor(Math.random()*3)];
+  s.style.left=Math.random()*100+'vw';
+  s.style.fontSize=(0.6+Math.random()*1.4)+'rem';
+  s.style.animationDuration=(5+Math.random()*10)+'s';
+  s.style.animationDelay=(-Math.random()*10)+'s';
+  s.style.opacity=0.1+Math.random()*0.3;
+  snowEl.appendChild(s);
+}
+
+/* REVEAL */
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ACCORDION */
+function toggleCur(btn){
+  const item=btn.closest('.cur-item');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.cur-item.open').forEach(el=>el.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+/* QUIZ */
+const domande=[
+  { q:"Quanti giocatori scendono in pista per ogni squadra?", opts:["4","5","6","7"], r:2, spieg:"Sono 6: 1 portiere, 2 difensori e 3 attaccanti!" },
+  { q:"Come si chiama il disco con cui si gioca a hockey su ghiaccio?", opts:["Palla","Stone","Puck","Disco"], r:2, spieg:"Si chiama Puck! È un disco di gomma da 170 grammi." },
+  { q:"Quanti periodi ha una partita di hockey olimpico?", opts:["2 periodi","3 periodi","4 periodi","1 solo tempo"], r:1, spieg:"La partita si divide in 3 periodi da 20 minuti ciascuno!" },
+  { q:"Dove si giocano le gare di hockey a Milano Cortina 2026?", opts:["Roma","Torino","Cortina","Milano"], r:3, spieg:"Le gare di hockey si giocano a Milano, nelle due arene olimpiche!" },
+  { q:"Come si chiama quando un giocatore segna 3 gol nella stessa partita?", opts:["Super gol","Hat trick","Triple score","Grand slam"], r:1, spieg:"Si chiama Hat trick! I tifosi lanciano i cappelli sul ghiaccio!" }
+];
+let current=0,score=0,answered=false;
+
+function loadQ(){
+  const d=domande[current];
+  document.getElementById('q-num').textContent=(current+1)+'.';
+  document.getElementById('q-text').textContent=d.q;
+  document.getElementById('q-counter').textContent='Domanda '+(current+1)+' di '+domande.length;
+  document.getElementById('q-feedback').className='quiz-feedback';
+  document.getElementById('q-feedback').textContent='';
+  document.getElementById('q-next').style.display='none';
+  answered=false;
+  const optsEl=document.getElementById('q-opts');
+  optsEl.innerHTML='';
+  d.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt'; btn.textContent=o;
+    btn.onclick=()=>answer(i,btn);
+    optsEl.appendChild(btn);
+  });
+}
+
+function answer(idx,btn){
+  if(answered) return;
+  answered=true;
+  const d=domande[current];
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('q-feedback');
+  if(idx===d.r){ score++; btn.classList.add('correct'); fb.textContent='✅ Esatto! '+d.spieg; fb.className='quiz-feedback ok'; }
+  else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt')[d.r].classList.add('correct'); fb.textContent='❌ Sbagliato! '+d.spieg; fb.className='quiz-feedback ko'; }
+  const nxt=document.getElementById('q-next');
+  nxt.style.display='block';
+  nxt.textContent=current===domande.length-1?'Vedi risultato 🏆':'Prossima ▶';
+}
+
+function nextQuestion(){
+  current++;
+  if(current<domande.length){ loadQ(); }
+  else {
+    document.getElementById('quiz-content').style.display='none';
+    document.getElementById('quiz-score').style.display='block';
+    document.getElementById('score-val').textContent=score+'/'+domande.length;
+    const msgs=['Rileggi la sezione Hockey! 📖','Quasi! Riprova ancora 💪','Non male! Puoi far meglio 👍','Ottimo! Sei bravo/a! 🌟','Perfetto! Sei un campione di hockey! 🏆'];
+    document.getElementById('score-msg').textContent=msgs[score];
+  }
+}
+
+function restartQuiz(){
+  current=0; score=0; answered=false;
+  document.getElementById('quiz-content').style.display='block';
+  document.getElementById('quiz-score').style.display='none';
+  loadQ();
+}
+
+loadQ();
+</script>
+</body>
+</html>
